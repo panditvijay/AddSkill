@@ -2,6 +2,7 @@
 
 using namespace std;
 
+/*Comparator for Priority Queue*/
 struct compare{
     bool operator()(pair<string,int> p1,pair<string,int> p2){
         return p1.first>p2.first;
@@ -14,8 +15,8 @@ int main(){
 
 int n=6;
 for(int i=1;i<=n;i++){
-        ostringstream oss;
-        ostringstream oss1;
+        ostringstream oss; // used for read file name on fly
+        ostringstream oss1; // used for write file name on fly
         oss<<"temp_words"<<i<<".txt";
 
     string st =oss.str();
@@ -47,6 +48,7 @@ for(int i=1;i<=n;i++){
 
 }
 
+/* */
 vector<string> v1;
 vector<string> v2;
 vector<string> v3;
@@ -55,7 +57,7 @@ vector<string> v5;
 vector<string> v6;
 
 
-fstream f1,f2,f3,f4,f5,f6;
+fstream f1,f2,f3,f4,f5,f6; // Pointer to each file
 ostringstream os1;
 ostringstream os2;
 ostringstream os3;
@@ -63,7 +65,7 @@ ostringstream os4;
 ostringstream os5;
 ostringstream os6;
 
-int tst=0;
+int tst=0; // Ignore just for testing purpose
 
 for(int i=1;i<=n;i++){
     if(i==1){
@@ -127,7 +129,7 @@ for(int i=1;i<=n;i++){
 
 priority_queue<pair<string,int>,vector<pair<string,int> >,compare> pq;
 
-int pv1=0,pv2=0,pv3=0,pv4=0,pv5=0,pv6=0;
+int pv1=0,pv2=0,pv3=0,pv4=0,pv5=0,pv6=0; //Pointer to each vector
 
 
 pq.push(make_pair(v1[pv1],1));
