@@ -1,0 +1,119 @@
+/*Connected undirected graph with no self loop and multiple edges*/
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+   
+queue<int> q;
+
+void bfs(vector<bool> &vst,map<int,vector<int>> &mp){
+    
+    while(!q.empty()){
+    int val = q.front();
+    q.pop();
+    vst[val]=true;
+    cout<<val<<" ";
+    
+        //int k=0;
+    for(int i=0;i<mp[val].size();i++){
+        if(!vst[mp[val][i]]){
+           q.push(mp[val][i]);
+        }
+    }
+    
+}
+    
+}
+
+
+
+
+int main(){
+    
+    int n;
+    cin>>n;
+    vector<bool> vst(n+1);
+    
+    map<int,vector<int>> mp;
+    int e=n-1;
+    while(e--){
+        int a,b;
+        cin>>a>>b;
+        
+        mp[a].push_back(b);
+        mp[b].push_back(a);
+        
+    }
+    
+    
+    cout<<"printing adjecency list "<<"\n";
+    
+    map<int,vector<int>>::iterator it;
+    
+    for(it=mp.begin();it!=mp.end();it++){
+        cout<<it->first<<": ";
+        for(int i=0;i<it->second.size();i++){
+            cout<<it->second[i]<<" ";
+        }
+        cout<<endl;
+    }
+    
+    
+    cout<<"BFS Traversal"<<endl;
+    q.push(1);
+    bfs(vst,mp);
+    
+    
+    return 0;
+}
+
+
+input:
+--------------------------------
+20  // Number of Nodes(n) & (n-1) lines below edges
+11 1
+1 2
+13 3
+15 4
+17 5
+11 6
+2 7
+1 8
+15 9
+4 10
+15 12
+5 13
+2 14
+17 15
+15 16
+11 17
+15 18
+9 19
+16 20
+
+Output:
+---------------------
+printing adjecency list 
+1: 11 2 8 
+2: 1 7 14 
+3: 13 
+4: 15 10 
+5: 17 13 
+6: 11 
+7: 2 
+8: 1 
+9: 15 19 
+10: 4 
+11: 1 6 17 
+12: 15 
+13: 3 5 
+14: 2 
+15: 4 9 12 17 16 18 
+16: 15 20 
+17: 5 15 11 
+18: 15 
+19: 9 
+20: 16 
+BFS Traversal
+1 11 2 8 6 17 7 14 5 15 13 4 9 12 16 18 3 10 19 20 
