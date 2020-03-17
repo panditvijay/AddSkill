@@ -1,6 +1,8 @@
 1. Cpp Cheet sheet : https://www.hoomanb.com/cs/quickref/CppQuickRef.pdf
 2. how source code build and execute in c++ : https://www.hackerearth.com/practice/notes/build-process-cc/
-3. External Merge Sort (How to sort a 1000 GB file with ram size is 4 GB only.)
+3. BFS - Adjacency List/Adjacency Matrix
+4. DFS - Adjacency List/Adjacency Matrix
+5. External Merge Sort (How to sort a 1000 GB file with ram size is 4 GB only.)
    
    - We have created 6 files out of one big file namely "temp_words1.txt", "temp_words2.txt", ... "temp_words6.txt"
    - Sorted those files as "sorted_words1.txt", "sorted_words2.txt", ... "sorted_words6.txt"
