@@ -11,6 +11,7 @@
    - Created Min-Heap of size 6 and added one value(word) from each vector (v1, v2, ... v6). 
    - For each "Pop" word will get added to "result" vector and when it gets full we write it back to disk as "result1.txt", "result2.txt"      and so on. 
    
+6. Topological Sort - Modified DFS/Kahn's Algorithm(in-deg based solution)
 
                                                                                      
                                              Watch This Space For More Updates
