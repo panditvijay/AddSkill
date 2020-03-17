@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+   
+queue<int> q;
+void bfs(vector<bool> &vb,vector<vector<int>> &ad){
+    
+    while(!q.empty()){
+    int val = q.front();
+    vb[val]=true;
+    cout<<val<<" ";
+    q.pop();
+    
+        //int k=0;
+    for(int i=0;i<ad.size();i++){
+        if(ad[val][i]==1 && !vb[i]){
+            q.push(i);
+        }
+    }
+    
+}
+}
+
+
+
+int main(){
+    
+    int n;
+    cin>>n;
+    vector<bool> vst(n+1);
+    
+    vector<vector<int>> ad(n+1,vector<int>(n+1,0));
+    int e=n-1;
+    while(e--){
+        int a,b;
+        cin>>a>>b;
+        
+        ad[a][b]=1;
+        ad[b][a]=1;
+        
+    }
+    
+    
+    cout<<"printing adjecency matrix "<<"\n";
+    for(int i=0;i<n+1;i++){
+        for(int j=0;j<n+1;j++){
+            cout<<ad[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    
+    q.push(1);
+    bfs(vst,ad);
+    
+    
+    return 0;
+}
+
+
+input:
+--------------------------------
+20  // Number of Nodes(n) & (n-1) lines below edges
+11 1
+1 2
+13 3
+15 4
+17 5
+11 6
+2 7
+1 8
+15 9
+4 10
+15 12
+5 13
+2 14
+17 15
+15 16
+11 17
+15 18
+9 19
+16 20
+
+Output:
+---------------------
+1 2 8 11 7 14 6 17 5 15 13 4 9 12 16 18 3 10 19 20
