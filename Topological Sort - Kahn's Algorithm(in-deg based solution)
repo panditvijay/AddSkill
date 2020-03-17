@@ -1,0 +1,161 @@
+/* 
+Help to find the cycle if there is one
+----------------------------------------------
+Algorithm:
+  - Find the in-deg of all the vertices.
+  - Push all vetices in queue which has in-deg '0'
+  - Pop vertex of in-deg '0' and decrement all adjecent vertex in-deg by 1 and check if that vectex has in-deg =0 if yes push into queue
+  - Repeat above step untill queue is empty.
+  
+Correctness of above Algorithm:
+--------------------------------
+https://stackoverflow.com/questions/30850648/determining-if-a-graph-has-a-cycle-without-using-dfs
+
+Case 1: Trivial:
+    - If there is a cycle, let it be v1->v2->v3->vk->v1.
+    - At each step of the algorithm, none of v1,v2,...,vk is a source
+    - proving it by induction by showing you never remove any of these edges
+    
+Case 2:
+    - If at some point during kahn's algorithm has no source to choose, though the algorithm is not finished yet, then every node (at the reminder graph) has an incoming edge.
+    - Assume there is no cycle, and let v1->v2->..->vk be the longest simple path in the reminder graph.
+    - But, v1 has an incoming edge, so there is some node v0 such that v0->v1->...->vk is also a path, and since we assumed there are no cycles, it is also simple path.
+    - Contradiction to maximality of v1->..->vk
+*/
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+void topological(queue<int> &q,vector<int> &indeg,map<int,vector<int>> &mp){
+	
+    int cnt=0;
+    vector<int> t_sort;
+    while(!q.empty()){
+        int val = q.front();
+        cnt++;
+        t_sort.push_back(val);
+        q.pop();
+        for(int i=0;i<mp[val].size();i++){
+            if(--indeg[mp[val][i]]==0){
+                q.push(mp[val][i]);
+            }
+        }
+    }
+    
+    if(cnt!=indeg.size()-1){
+        cout<<"There is a cycle "<<endl;
+        return;
+    }
+
+    
+    for(int i=0;i<t_sort.size();i++){
+        cout<<t_sort[i]<<" ";
+    }
+	
+}
+
+int main(){
+
+
+	int n,m;
+
+	cin>>n>>m;
+
+	
+	map<int,vector<int>> mp;
+    vector<int> indeg(n+1);
+	while(m--){
+		int a,b;
+
+		cin>>a>>b;
+		mp[a].push_back(b);
+        indeg[b]++;
+
+	}
+
+	cout<<"printing adjecency list"<<endl;
+    
+    map<int,vector<int>>::iterator it;
+    
+    for(it=mp.begin();it!=mp.end();it++){
+        cout<<it->first<<": ";
+        for(int i=0;i<it->second.size();i++){
+            cout<<it->second[i]<<" ";
+        }
+        cout<<endl;
+    }
+
+	
+    queue<int> q;
+	for(int i=1;i<indeg.size();i++){
+			if(indeg[i]==0){
+                q.push(i);
+            }
+	}
+    
+    topological(q,indeg,mp);
+
+
+
+	return 0;
+}
+
+input:
+--------------------------------
+10 10 // No. of vertices and edges
+10 8
+10 7
+8 9
+7 6
+9 6
+9 2
+6 1
+1 5
+1 4
+2 3
+
+Output:
+---------------------
+printing adjecency list
+1: 5 4 
+2: 3 
+6: 1 
+7: 6 
+8: 9 
+9: 6 2 
+10: 8 7 
+Topological sort is 
+10 8 9 7 6 2 3 1 4 5 
+
+
+
+input: (Cycle detection case)
+--------------------------------
+10 11 // No. of vertices and edges
+10 8
+10 7
+4 9
+8 9
+7 6
+9 6
+9 2
+6 1
+1 5
+1 4
+2 3
+
+
+Output:
+---------------------
+printing adjecency list
+1: 5 4 
+2: 3 
+4: 9 
+6: 1 
+7: 6 
+8: 9 
+9: 6 2 
+10: 8 7 
+There is a cycle 
