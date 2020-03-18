@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int cost=0;
+
+void minspanning(int val,vector<bool> &vst,map<int,vector<pair<int,int>>> &mpr){
+    
+    priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> q;
+    
+    q.push(make_pair(0,val));
+    
+    
+    while(!q.empty()){
+        pair<int,int> pr = q.top();
+        int v=pr.second;
+        
+        if(!vst[v]){
+            vst[v]=true;
+            cost+=pr.first;
+        }
+        
+        q.pop();
+        
+        
+        for(int i=0;i<mpr[v].size();i++){
+            if(!vst[mpr[v][i].second]){
+                
+                q.push(make_pair(mpr[v][i].first,mpr[v][i].second));
+            }
+        }
+    }
+    
+    for(int i=0;i<ev.size();i++){
+        cout<<ev[i].first<<" "<<ev[i].second<<endl;
+    }
+    
+    
+}
+int main(){
+
+
+	int n,m;
+
+	cin>>n>>m;
+
+	
+	map<int,vector<pair<int,int>>> mpr;
+    
+    while(m--){
+        int a,b,w;
+        cin>>a>>b>>w;
+        mpr[a].push_back(make_pair(w,b));
+        mpr[b].push_back(make_pair(w,a));
+    }
+    
+    vector<bool> vst(n+1);
+    
+    minspanning(1,vst,mpr);// starting with node 1;
+    
+    cout<<"Total cost: "<<cost;
+
+	return 0;
+}
+
+
+Input:
+-------------------------
+4 5 // No. of vertices and edges
+1 2 7
+1 4 6
+4 2 9
+4 3 8
+2 3 6
+
+Output:
+-------------------------
+Total cost: 19
