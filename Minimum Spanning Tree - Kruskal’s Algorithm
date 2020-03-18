@@ -1,0 +1,105 @@
+/*
+Algorithm Steps:
+
+  - Sort the graph edges with respect to their weights.
+  - Start adding edges to the MST from the edge with the smallest weight until the edge of the largest weight.
+  - Only add edges which doesn't form a cycle , edges which connect only disconnected components.
+  
+*/
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int root(int v,vector<int> &pv){
+    while(pv[v]!=v){
+        v=pv[v];
+    }
+    
+    return v;
+}
+
+bool cycle(int v1,int v2, vector<int> &pv){
+    int p1=root(v1,pv);
+    int p2=root(v2,pv);
+    
+    if(p1!=p2){
+        pv[p2]=p1;
+        return false;
+    }
+    
+    return true;
+}
+
+
+int main(){
+
+
+	int n,m;
+
+	cin>>n>>m;
+
+	
+	vector<pair<int,pair<int,int>>> v(m);
+    
+    while(m--){
+        int a,b,w;
+        cin>>a>>b>>w;
+        v.push_back(make_pair(w,make_pair(a,b)));
+    }
+    
+    sort(v.begin(),v.end());
+    
+    vector<int> pv(n+1); //parent vector
+    
+    for(int i=0;i<n+1;i++){
+        pv[i]=i;
+    }
+    
+    vector<pair<int,pair<int,int>>> ev; //edges in min-spanning tree;
+    
+    int cost =0; //cost of min-spanning tree
+        
+    for(int i=0;i<v.size();i++){
+        pair<int,pair<int,int>>  pr = v[i];
+        int v1= pr.second.first;
+        int v2= pr.second.second;
+        
+        if(!cycle(v1,v2,pv)){ /*check after adding this edge forming a cycle or not. if True we not gonna add it*/ 
+            
+             ev.push_back(make_pair(pr.first,make_pair(v1,v2))); 
+            cost+=pr.first;
+            
+        }
+    }
+    
+    cout<<"Edges in min-spanning tree (Weight : (v1 v2))"<<endl;
+    
+    for(int i=0;i<ev.size();i++){
+        pair<int,pair<int,int>> pr = ev[i];
+        cout<<pr.first<<": "<<pr.second.first<<" "<<pr.second.second<<endl;
+    }
+    
+    cout<<"Total cost: "<<cost;
+
+	return 0;
+}
+
+
+Input:
+-------------------------
+4 5
+1 2 7
+1 4 6
+4 2 9
+4 3 8
+2 3 6
+
+
+Output:
+-------------------------
+Edges in min-spanning tree (Weight : (v1 v2))
+6: 1 4
+6: 2 3
+7: 1 2
+Total cost: 19
