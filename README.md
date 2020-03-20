@@ -2,7 +2,8 @@
 2. how source code build and execute in c++ : https://www.hackerearth.com/practice/notes/build-process-cc/
 3. BFS - Adjacency List/Adjacency Matrix
 4. DFS - Adjacency List/Adjacency Matrix
-5. External Merge Sort (How to sort a 1000 GB file with ram size is 4 GB only.)
+5. Dijkstra's Algorithm - The shortest path from source to  all other vertices
+6. External Merge Sort (How to sort a 1000 GB file with ram size is 4 GB only.)
    
    - We have created 6 files out of one big file namely "temp_words1.txt", "temp_words2.txt", ... "temp_words6.txt"
    - Sorted those files as "sorted_words1.txt", "sorted_words2.txt", ... "sorted_words6.txt"
@@ -11,8 +12,8 @@
    - Created Min-Heap of size 6 and added one value(word) from each vector (v1, v2, ... v6). 
    - For each "Pop" word will get added to "result" vector and when it gets full we write it back to disk as "result1.txt", "result2.txt"      and so on. 
    
-6. Minimum Spanning Tree - Prim’s Algorithm/Kruskal’s Algorithm
-7. Topological Sort - Modified DFS/Kahn's Algorithm(in-deg based solution)
+7. Minimum Spanning Tree - Prim’s Algorithm/Kruskal’s Algorithm
+8. Topological Sort - Modified DFS/Kahn's Algorithm(in-deg based solution)
 
                                                                                      
                                              Watch This Space For More Updates
