@@ -15,7 +15,7 @@ Thus, in case 3, the maximum pair sum is minimum of all the other cases. Hence, 
 
 
 
-Brute force approach - O(n^3) time & O(N) space
+Brute force approach - O(n^3) time & O(N^2) space
 -----------------------------
 1. Generate all the pairs of indexes from a given array A and store in an array, say B
 2. Create an array "vst" size of A to check which pair we have already visited.
