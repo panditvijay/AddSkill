@@ -1,0 +1,70 @@
+https://www.hackerearth.com/practice/data-structures/advanced-data-structures/segment-trees/tutorial/
+
+
+#include<bits/stdc++.h>
+
+/*segment tree implementation*/
+
+using namespace std;
+
+int main(){
+
+    int n,q;
+    cin>>n>>q;
+
+    vector<int> tr(2*n);
+    for(int i=n;i<2*n;i++){
+        int val;
+        cin>>val;
+        tr[i]=val;
+
+    }
+
+    for(int i=n-1;i>0;i--){
+        tr[i]=min(tr[2*i],tr[2*i+1]);
+    }
+
+
+    while(q--){
+        int l,r;
+        char ty;
+        cin>>ty>>l>>r;
+
+        int mn=INT_MAX;
+
+        if(ty=='q'){
+            l+=n-1;
+            r+=n-1;
+            while(l<=r){
+            if(l%2==1){
+                mn=min(mn,tr[l]);
+                l++;
+            }
+
+            if(r%2==0){
+                mn=min(mn,tr[r]);
+                r--;
+            }
+            l/=2;
+            r/=2;
+        }
+        cout<<mn<<endl;
+        }else{
+            int pos = l+n-1;
+            tr[pos]=r;
+
+            while(pos>0){
+                pos/=2;
+
+                tr[pos]=min(tr[2*pos],tr[2*pos+1]);
+
+            }
+
+
+        }
+
+
+    }
+
+    return 0;
+}
