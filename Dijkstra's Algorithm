@@ -36,14 +36,16 @@ void dij(int val,vector<bool> &vst,vector<int> &d, map<int,vector<pair<int,int>>
 		if(!vst[v]){
 			vst[v]=true;
 			d[v]=pr.first;
+		}else{
+			continue;
 		}
 
 		for(int i=0;i<mp[v].size();i++){
-			if(!vst[mp[v][i].second]){
+			
 				if(d[mp[v][i].second]>mp[v][i].first+pr.first){
 					pq.push(make_pair(mp[v][i].first+pr.first,mp[v][i].second));
 				}
-			}
+			
 		}
 	}
 
@@ -52,7 +54,8 @@ void dij(int val,vector<bool> &vst,vector<int> &d, map<int,vector<pair<int,int>>
 
 
 int main(){
-
+	ios_base::sync_with_stdio(false);
+cin.tie(NULL);
 	int n,m;
 
 	cin>>n>>m;
@@ -65,7 +68,7 @@ int main(){
 		cin>>a>>b>>w;
 
 		mp[a].push_back(make_pair(w,b));
-		mp[b].push_back(make_pair(w,a));
+		//mp[b].push_back(make_pair(w,a));
 
 	}
 
@@ -73,7 +76,7 @@ int main(){
 
 	vector<bool> vst(n+1);
 
-	dij(1,vst,d,mp); // starting from node 1
+	dij(1,vst,d,mp);
 
 	for(int i=2;i<n+1;i++){
 		cout<<d[i]<<" ";
@@ -81,7 +84,6 @@ int main(){
 
 	return 0;
 }
-
 
 Input:
 -------------------------
