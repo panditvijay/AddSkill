@@ -68,7 +68,7 @@ cin.tie(NULL);
 		cin>>a>>b>>w;
 
 		mp[a].push_back(make_pair(w,b));
-		//mp[b].push_back(make_pair(w,a));
+		mp[b].push_back(make_pair(w,a));
 
 	}
 
