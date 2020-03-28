@@ -11,16 +11,26 @@ void minspanning(int val,vector<bool> &vst,map<int,vector<pair<int,int>>> &mpr){
     q.push(make_pair(0,val));
     
     
+    
+    
+    
+    
+    
     while(!q.empty()){
         pair<int,int> pr = q.top();
         int v=pr.second;
         
+
+        q.pop();
+
         if(!vst[v]){
             vst[v]=true;
             cost+=pr.first;
+        }else{
+            continue;
         }
         
-        q.pop();
+        
         
         
         for(int i=0;i<mpr[v].size();i++){
@@ -29,10 +39,6 @@ void minspanning(int val,vector<bool> &vst,map<int,vector<pair<int,int>>> &mpr){
                 q.push(make_pair(mpr[v][i].first,mpr[v][i].second));
             }
         }
-    }
-    
-    for(int i=0;i<ev.size();i++){
-        cout<<ev[i].first<<" "<<ev[i].second<<endl;
     }
     
     
@@ -58,11 +64,10 @@ int main(){
     
     minspanning(1,vst,mpr);// starting with node 1;
     
-    cout<<"Total cost: "<<cost;
+    cout<<cost<<endl;
 
 	return 0;
 }
-
 
 Input:
 -------------------------
