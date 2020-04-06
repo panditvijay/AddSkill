@@ -1,1 +1,87 @@
+/* Recursion + memoization
 
+Given a sequence of matrices, find the most efficient way to multiply these matrices together so that number of mutiplication would be
+minimum.
+
+
+*/
+
+
+
+#include<bits/stdc++.h>
+
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define sp(x,y)         fixed<<setprecision(y)<<x
+typedef long long int ll;
+
+using namespace std;
+
+
+int mchain(vector<int> &res, int i,int j,vector<vector<int>> &dp){
+    
+    if(i>=j){
+        return 0;
+        
+    }
+    
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    int mn =INT_MAX;
+    for(int k=i;k<j;k++){
+        int tmp=mchain(res,i,k,dp)+mchain(res,k+1,j,dp)+res[i-1]*res[k]*res[j];
+        
+        if(tmp<mn){
+            mn=tmp;
+        }
+        
+    }
+    
+    return dp[i][j]=mn;
+}
+
+int main(){
+
+	
+    
+   int t;
+    cin>>t;
+    
+    while(t--){
+        int n;
+        cin>>n;
+        
+        vector<int> res(n);
+        
+        for(int i=0;i<n;i++){
+            cin>>res[i];
+        }
+        
+        vector<vector<int>> dp(n,vector<int>(n,-1));
+        
+        cout<<mchain(res,1,n-1,dp)<<endl;
+    }
+    
+   
+
+
+
+return 0; 
+}
+
+
+Input:
+---------
+2 // No. of test case
+5 // length of an array
+1 2 3 4 5 // Matrices are as follows: (1x2),(2x3),(3x4),(4x5)
+3
+3 3 3
+
+Output:
+--------------
+38
+27
