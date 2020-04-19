@@ -1,0 +1,112 @@
+/*
+Find minimum value in a given range.(Q*sqrt(N)) time complexity
+
+Solution :https://www.spoj.com/problems/RMQSQ/
+*/
+
+ 
+#include<bits/stdc++.h>
+ 
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define sp(x,y)         fixed<<setprecision(y)<<x
+typedef long long int ll;
+ 
+using namespace std;
+ 
+int findMin(int &l,int &r,int &bs,vector<int> &res,vector<int> &dc){
+    int mn=INT_MAX;
+    int fbn=l/bs; //first block no.
+    int lbn=r/bs; //last block no.
+    
+    if(fbn==lbn){ //If both block no. is, just check inside given array(res)
+        for(int i=l;i<=r;i++){
+             mn=min(mn,res[i]);
+        }
+    }else{ 
+       
+        
+        for(int i=l;i<(fbn+1)*bs;i++){
+            mn=min(mn,res[i]);
+        }
+    
+    
+    
+    for(int i=fbn+1;i<lbn;i++){
+        mn=min(mn,dc[i]);
+    }
+    
+       
+        
+        for(int i=lbn*bs;i<=r;i++){
+            mn=min(mn,res[i]);
+        }
+    }
+    
+    
+    return mn;
+}
+ 
+ 
+int main(){
+ 
+	// For fast I/O.
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    
+   /* #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif */
+    
+    int n;
+    cin>>n;
+    
+    vector<int> res(n);
+    
+    for(int i=0;i<n;i++){
+        cin>>res[i];
+    }
+   
+    
+    int bs=sqrt(n); //Block size
+    
+    int nb; // No. of block.
+    
+    if(n%bs==0){
+        nb=n/bs;
+    }else{
+        nb=n/bs+1;
+    }
+    
+    vector<int> dc; //minimum value in a particular block.
+    
+    int k=0;
+    while(k<n){
+        int mn=INT_MAX;
+        for(int i=k;i<bs+k;i++){
+            if(i<n && res[i]<mn){
+                mn=res[i];
+            }
+        }
+        k+=bs;
+        dc.push_back(mn);
+    }
+    
+    int q;
+    cin>>q;
+  
+    while(q--){
+        int l,r;
+        cin>>l>>r;
+        cout<<findMin(l,r,bs,res,dc)<<endl;
+    }
+    
+   
+ 
+ 
+ 
+return 0; 
+}
