@@ -1,0 +1,110 @@
+/*
+Good Read: https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/tutorial/
+
+
+Below, solution to problem given at the end of the tutorial.
+*/
+
+
+
+#include<bits/stdc++.h>
+
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define sp(x,y)         fixed<<setprecision(y)<<x
+typedef long long int ll;
+
+using namespace std;
+
+int root(int x,vector<int> &v){ //find root of a vertex
+    
+    while(v[x]!=x){
+        v[x]=v[v[x]];           // Path compression, if a particular vertex at level "N", after 1 iteration it get connected to its
+                                 // ancestor at level N-2
+        x=v[x];
+    }
+    
+    return x;
+}
+
+void init(int n, vector<int> &v,vector<int> &sz){ //Simple initialization of every vertex as root and size of each connected component
+                                                  // to 1
+    for(int i=1;i<=n;i++){
+        v[i]=i;
+        sz[i]=1;
+    }
+}
+
+
+void add(int x,int y,vector<int> &v,vector<int> &sz){ //Connectig subset that has a smaller number of elements to the root of each subset 
+                                                       //that has a larger number of elements.
+    
+    int rx=root(x,v);
+    int ry =root(y,v);
+    if(rx==ry){
+        return;
+ 
+    }else{
+        if(sz[x]>sz[y]){
+            v[ry]=rx;
+            sz[rx]+=sz[ry];
+        }else{
+            v[rx]=ry;
+            sz[ry]+=sz[rx];
+        }
+    }
+    
+}
+
+int main(){
+
+	// For fast I/O.
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    
+   /* #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif */
+    
+   
+    int n,m;
+    cin>>n>>m;
+    
+    vector<int> v(n+1);
+    vector<int> sz(n+1);
+    init(n,v,sz);
+    
+    while(m--){
+        int x,y;
+        cin>>x>>y;
+        
+        add(x,y,v,sz);
+        
+        priority_queue<int,vector<int>, greater<int>> pq;
+        
+        for(int i=1;i<=n;i++){
+            if(v[i]==i){
+               pq.push(sz[v[i]]);
+                
+            }
+        }
+        
+        while(!pq.empty()){
+            cout<<pq.top()<<" ";
+            pq.pop();
+        }
+        cout<<"\n";
+    }
+   
+
+
+
+return 0; 
+}
+
+
+
+
