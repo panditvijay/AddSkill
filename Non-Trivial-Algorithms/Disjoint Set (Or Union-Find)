@@ -21,7 +21,7 @@ using namespace std;
 int root(int x,vector<int> &v){ //find root of a vertex
     
     while(v[x]!=x){
-        v[x]=v[v[x]];           // Path compression, if a particular vertex at level "N", after 1 iteration it get connected to its
+        v[x]=v[v[x]];           // Path compression, if a particular vertex at level "N", after each iteration it get connected to its
                                  // ancestor at level N-2
         x=v[x];
     }
