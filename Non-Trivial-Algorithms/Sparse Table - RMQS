@@ -2,6 +2,12 @@
 
 Trivia : LCA(Lowest Common Anccestor) can be solved using this with O(1) per query and O(NlogN) preprocessing.
 
+LCA explanation (For more, Read Here: https://cp-algorithms.com/graph/lca.html
+----------------------------------------------------------------------------
+1. Do euler tour of a tree and store the level correspoding nodes
+2. LCA(v1,v2) can be uniquely determined by finding the vertex with the smallest level in the Euler tour between first(v1) and first(v2).
+3. To find min. level between two nodes, we can buid sparse table and get the min. value in O(1) per query as described below(Line No. 81)
+
 Good read : https://www.hackerearth.com/practice/notes/sparse-table/#c225251
 
 Problem Solution: https://www.spoj.com/problems/RMQSQ/
