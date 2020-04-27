@@ -21,7 +21,7 @@ int findMin(int &l,int &r,int &bs,vector<int> &res,vector<int> &dc){
     int fbn=l/bs; //first block no.
     int lbn=r/bs; //last block no.
     
-    if(fbn==lbn){ //If both block no. is, just check inside given array(res)
+    if(fbn==lbn){ //If both block no. is same i.e l,r belong to same block then check inside a given array(res)
         for(int i=l;i<=r;i++){
              mn=min(mn,res[i]);
         }
