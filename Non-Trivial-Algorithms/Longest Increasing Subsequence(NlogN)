@@ -1,0 +1,80 @@
+Algorithm(Based on patience sort - we store values in increasing order):
+------------------------------------------------------------------------
+1. Create vector(say, vs), Insert first element.
+2. Now start checking from index-1 and do a binary search, if value is already present in then replace with the new value
+3. If value is not present then try to find a place(left most possible) where if you store a value your vector remain sorted.
+4. E.g. initial vector was [2,5], now 3 came we can store it on index 1(0-based indexing) not on index 0 beacause 3 is greater than 2. 
+   After update vector is [2,3]. now suppose 5 came we can store on index 2 which is [2,3,5].
+
+
+Good Watch:https://www.youtube.com/watch?v=22s1xxRvy28
+
+
+problem: https://leetcode.com/problems/longest-increasing-subsequence/
+
+
+class Solution {
+public:
+    
+    int bs(vector<int> &vs,int val){
+        int lo=0;
+        int hi=vs.size()-1;
+        
+        int indx=-1;
+        
+        while(lo<=hi){
+            int mid=lo+(hi-lo)/2;
+            
+            int st = vs[mid];
+            
+            if(st>=val){
+               if(mid-1>=0){
+                   int tmp = vs[mid-1];
+                   if(tmp>=val){
+                       hi=mid-1;
+                   }else{
+                        vs[mid]=val;
+                       indx=1;
+                       lo=1;
+                   hi=0;
+                   }
+               }else{
+                   
+                   vs[mid]=val;
+                   indx=1;
+                   lo=1;
+                   hi=0;
+                   
+               }
+            }else{
+                lo=mid+1;
+            }
+        }
+        
+        return indx;
+    }
+    
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> vs;
+        
+        if(nums.size()==0){
+            return 0;
+        }
+        
+        
+        vs.push_back(nums[0]);
+        
+        for(int i=1;i<nums.size();i++){
+            
+            int indx=bs(vs,nums[i]);
+            
+            if(indx==-1){
+               
+                vs.push_back(nums[i]);
+            }
+        }
+        
+        return vs.size();
+        
+    }
+};
