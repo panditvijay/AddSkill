@@ -1,0 +1,167 @@
+/* Author : A110011 - 00:19 "CodeIn Hard Way" 
+
+Range sum Query: "logN" update & query
+
+Algorithm:
+------------------
+Build BIT as follows:
+
+1. create an array BIT of size N+1 //starting index 1
+2. Every index power of 2 stores sum of value from 1 to that index. e.g BIT[4] store (1 to 4)
+3. update() function update value at given index then it updates all the next indices which power of 2's 
+
+
+*/
+
+#include<bits/stdc++.h>
+
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define sp(x,y)         fixed<<setprecision(y)<<x
+typedef long long int ll;
+
+using namespace std;
+
+
+void update(int val,int indx,vector<int> &bit,int n,vector<ll> &pw){
+    int next_indx=0;
+    for(int i=0;i<32;i++){
+        if(pw[i]>indx){
+            next_indx=pw[i];
+            break;
+        }
+    }
+    
+    while(next_indx<n){
+        bit[next_indx]+=val;
+        next_indx*=2;
+    }
+    
+}
+
+int query(int l,int r,vector<int> &bit,vector<ll> &pw){
+    int next_indx_l=0;
+    for(int i=0;i<32;i++){
+        if(pw[i]>l && l>0){
+            next_indx_l=pw[i-1];
+            break;
+        }
+    }
+    int next_indx_r=0;
+    for(int i=0;i<32;i++){
+        if(pw[i]>r){
+            next_indx_r=pw[i-1];
+            break;
+        }
+    }
+    
+    int val=0;
+    
+    if(next_indx_l==l){
+        val+=bit[l];
+    }else{
+        val+=bit[next_indx_l];
+        int i=0;
+        while(next_indx_l+pw[i]<=l){
+            val+=bit[next_indx_l+pw[i]];
+            i++;
+        }
+    }
+    
+    int var=0;
+    if(next_indx_r==r){
+        var+=bit[r];
+    }else{
+        var+=bit[next_indx_r];
+        int i=0;
+        while(next_indx_r+pw[i]<=r){
+            var+=bit[next_indx_r+pw[i]];
+            i++;
+        }
+    }
+    
+   // cout<<next_indx_l<<":"<<val<<" "<<next_indx_r<<":"<<var<<endl;
+    
+    
+    return var-val;
+}
+
+int main(){
+
+	// For fast I/O.
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    
+   /* #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif */
+    
+   
+   vector<ll> pw(32,0);
+    pw[0]=1;
+
+    for(int i=1;i<32;i++){
+        pw[i]=2*pw[i-1];  // pre-computing all power of 2's
+    }
+    
+    int n,q;
+    
+    cin>>n>>q;
+    
+    vector<int> res(n+1,0);
+    vector<int> bit(n+1,0);
+    for(int i=1;i<n+1;i++){
+        cin>>res[i];
+        bit[i]+=res[i];
+        update(res[i],i,bit,n+1,pw);
+    }
+    
+    
+    
+   for(int i=1;i<n+1;i++){
+        cout<<bit[i]<<" ";
+        
+    }
+    cout<<endl;
+    
+    while(q--){
+        char ch;
+        cin>>ch;
+         int l,r;
+        if(ch=='q'){
+            cin>>l>>r;
+            cout<<query(l-1,r,bit,pw)<<endl;
+        }else{
+            cin>>l>>r;
+            int val=r-res[l];
+            res[l]=r;
+            bit[l]+=val;
+            update(val,l,bit,n+1,pw);
+        }
+    }
+
+
+
+return 0; 
+}
+
+
+Input:
+------------------
+5 5  /*array size and no. of queries
+1 5 2 4 3
+q 1 5  
+q 1 3
+q 3 5
+u 3 6
+q 1 5
+
+Output
+----------
+15
+8
+9
+19
