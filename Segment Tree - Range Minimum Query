@@ -20,12 +20,14 @@ using namespace std;
 
 
 
-void build(vector<int> &t,int n) {  /* build the tree*/
-  for (int i = n - 1; i > 0; --i) t[i] = min(t[i<<1],t[i<<1|1]); /* t[i]=min(t[2*i],t[2*i+1])*/
+void build(vector<int> &t,int n) {                  /* build the tree*/
+  for (int i = n - 1; i > 0; --i) 
+       t[i]=min(t[2*i],t[2*i+1]);
 }
 
 void modify(vector<int> &t,int n,int p, int value) {  // set value at position p
-  for (t[p += n] = value; p > 1; p >>= 1) t[p>>1] = min(t[p] , t[p^1]); /* Updating index with value and moving up(p>>1) and calculating min of its children.
+  for (t[p += n] = value; p > 1; p=p/2) 
+      t[p/2] = min(t[p] , t[p^1]);      /* Updating index with value and moving up(p>>1) and calculating min of its children.*/
 }
 
 int query(vector<int> &t,int n,int l, int r) {  // sum on interval [l, r)
@@ -33,7 +35,7 @@ int query(vector<int> &t,int n,int l, int r) {  // sum on interval [l, r)
     
   for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
     if (l&1) res = min(res,t[l++]);  /* If left is ODD i.e its the right child hence calculating min.*/
-    if (r&1) res = min(res,t[--r]); /*  If right is EVEN(since right most we are not considering so its an ODD) i.e its the left child hence calculating min.*/ 
+    if (r&1) res = min(res,t[--r]); /*  If right is EVEN(since right most we are not considering so its an ODD) i.e its the left child hence                                          calculating min.*/ 
   }
   return res;
 }
