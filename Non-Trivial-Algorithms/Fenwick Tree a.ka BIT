@@ -89,7 +89,7 @@ int main(){
             cout<<query(r,bit)-query(l-1,bit)<<endl;
         }else{
             cin>>l>>r;
-            r=r-res[l];
+            r=r-res[l]; // Since we are updating value, we need subtract it from present value.
             update(r,l,bit,n+1);
         }
     }
