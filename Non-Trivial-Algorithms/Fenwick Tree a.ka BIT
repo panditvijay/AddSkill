@@ -7,11 +7,13 @@ Algorithm:
 Build BIT as follows:
 
 1. create an array BIT of size N+1 //starting index 1
-2. Every index power of 2 stores sum of value from 1 to that index. e.g BIT[4] store (1 to 4)
-3. update() function update value at given index then it updates all the next indices which power of 2's 
+2. Every index(i) strores value from 1+(i-(i&-i) to i i.e say i=8 it store value from (1,8)
+
 
 
 */
+
+/* Author : A110011 - 00:19 "CodeIn Hard Way" */
 
 #include<bits/stdc++.h>
 
@@ -25,67 +27,24 @@ typedef long long int ll;
 using namespace std;
 
 
-void update(int val,int indx,vector<int> &bit,int n,vector<ll> &pw){
-    int next_indx=0;
-    for(int i=0;i<32;i++){
-        if(pw[i]>indx){
-            next_indx=pw[i];
-            break;
-        }
+void update(int val,int indx,vector<int> &bit,int n){
+    
+    for(;indx<n;indx+=indx & -indx){
+        bit[indx]+=val;
     }
     
-    while(next_indx<n){
-        bit[next_indx]+=val;
-        next_indx*=2;
-    }
     
 }
 
-int query(int l,int r,vector<int> &bit,vector<ll> &pw){
-    int next_indx_l=0;
-    for(int i=0;i<32;i++){
-        if(pw[i]>l && l>0){
-            next_indx_l=pw[i-1];
-            break;
-        }
-    }
-    int next_indx_r=0;
-    for(int i=0;i<32;i++){
-        if(pw[i]>r){
-            next_indx_r=pw[i-1];
-            break;
-        }
+int query(int indx,vector<int> &bit){
+    int sum=0;
+    
+    for(;indx>0;indx-=indx&-indx){
+        sum+=bit[indx];
+        
     }
     
-    int val=0;
-    
-    if(next_indx_l==l){
-        val+=bit[l];
-    }else{
-        val+=bit[next_indx_l];
-        int i=0;
-        while(next_indx_l+pw[i]<=l){
-            val+=bit[next_indx_l+pw[i]];
-            i++;
-        }
-    }
-    
-    int var=0;
-    if(next_indx_r==r){
-        var+=bit[r];
-    }else{
-        var+=bit[next_indx_r];
-        int i=0;
-        while(next_indx_r+pw[i]<=r){
-            var+=bit[next_indx_r+pw[i]];
-            i++;
-        }
-    }
-    
-   // cout<<next_indx_l<<":"<<val<<" "<<next_indx_r<<":"<<var<<endl;
-    
-    
-    return var-val;
+    return sum;
 }
 
 int main(){
@@ -99,13 +58,7 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif */
     
-   
-   vector<ll> pw(32,0);
-    pw[0]=1;
-
-    for(int i=1;i<32;i++){
-        pw[i]=2*pw[i-1];  // pre-computing all power of 2's
-    }
+  
     
     int n,q;
     
@@ -115,17 +68,17 @@ int main(){
     vector<int> bit(n+1,0);
     for(int i=1;i<n+1;i++){
         cin>>res[i];
-        bit[i]+=res[i];
-        update(res[i],i,bit,n+1,pw);
+        
+        update(res[i],i,bit,n+1);
     }
     
     
     
-   for(int i=1;i<n+1;i++){
+  /* for(int i=1;i<n+1;i++){
         cout<<bit[i]<<" ";
         
     }
-    cout<<endl;
+    cout<<endl;*/
     
     while(q--){
         char ch;
@@ -133,13 +86,11 @@ int main(){
          int l,r;
         if(ch=='q'){
             cin>>l>>r;
-            cout<<query(l-1,r,bit,pw)<<endl;
+            cout<<query(r,bit)-query(l-1,bit)<<endl;
         }else{
             cin>>l>>r;
-            int val=r-res[l];
-            res[l]=r;
-            bit[l]+=val;
-            update(val,l,bit,n+1,pw);
+            r=r-res[l];
+            update(r,l,bit,n+1);
         }
     }
 
@@ -147,7 +98,6 @@ int main(){
 
 return 0; 
 }
-
 
 Input:
 ------------------
