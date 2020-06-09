@@ -1,0 +1,56 @@
+Problem Link:
+--------------
+https://www.spoj.com/problems/PR003004/
+
+
+
+
+#include <bits/stdc++.h>
+        using namespace std;
+        int a,b;
+        long long int DP[15][180][2];
+        vector<int> num;
+        long long int solve(int pos,int sum,int f){
+            if(pos==num.size())
+            return sum;
+            if (DP[pos][sum][f]!=-1) return DP[pos][sum][f];
+            long long int res=0;
+            int lmt;
+            if(f==0){
+                lmt=num[pos];
+            }
+            else lmt=9;
+            for(int dgt=0;dgt<=lmt;dgt++){
+                
+                f= (dgt<lmt)?1:0;
+                res+=solve(pos+1,sum+dgt,f);
+            }
+            
+            return DP[pos][sum][f]=res;
+            
+        }
+        long long int solve1(int no){
+            num.clear();
+            while(no!=0){
+                num.push_back(no%10);
+                no/=10;
+            }
+            memset(DP,-1,sizeof(DP));
+            reverse(num.begin(),num.end());
+            long long int result=solve(0,0,0);
+            return result;
+        }
+        
+        using namespace std;
+            int main(){
+                int t;
+                cin>>t;
+       
+        while(t--){
+            int a,b;
+             cin>>a>>b;
+            cout<<solve1(b)-solve1(a-1)<<endl;
+            
+        }
+        return 0;
+        }  
